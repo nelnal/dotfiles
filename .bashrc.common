@@ -1,0 +1,9 @@
+type -t anyenv 2>&1 > /dev/null && eval "$(anyenv init -)"
+type -t goenv 2>&1 > /dev/null && eval "$(goenv init -)"
+
+# add some aliases
+alias ll='ls -l'
+alias la='ls -A'
+alias lla='ls -al'
+alias vi='nvim'
+alias dotfiles='/usr/bin/git --git-dir=/home/nelnal/.dotfiles/ --work-tree=/home/nelnal'
