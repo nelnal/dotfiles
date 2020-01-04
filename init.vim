@@ -1,19 +1,44 @@
-call plug#begin()
+"*******************************************************************************
+" table of comtents
+"
+" >vimplug#common< : 'vim-plug' common packages
+" >vimplug#lang< : 'vim-plug' packages for languages
+"
+" >conf4basic< : neovim basic config
+" >conf4visual< : neovim visual config
+" >conf4integration< : neovim integration config
+" >conf4ack< : config for 'ack.vim'
+" >conf4ale< : config for 'ale'
+" >conf4cocnvim< : config for 'coc.nvim'
+" >conf4fzf< : config for 'fzf'
+" >conf4rainbow< : config for 'rainbow'
+" >conf4ultisnips< : config for 'ultisnips'
+" >conf4vimairline< : config for 'vim-airline'
+" >conf4vimindentguides< : config for 'vim-indent-guides'
+"
+"*******************************************************************************
+
+call plug#begin('~/.local/share/nvim/plugged')
 
 "*******************************************************************************
-" vim-plug : install common packages
+" >vimplug#common< : common packages
 "*******************************************************************************
 
-Plug 'dense-analysis/ale', { 'tag': 'v2.3.1'}
+Plug 'mileszs/ack.vim'
+Plug 'dense-analysis/ale', { 'tag': 'v2.6.0' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'editorconfig/editorconfig-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'luochen1990/rainbow'
+Plug 'kassio/neoterm'
+Plug 'itchyny/lightline.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'sheerun/vim-polyglot'
+Plug 'thinca/vim-quickrun'
+Plug 'tpope/vim-surround'
 
 " for colorschema
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'tomasr/molokai'
 
 " fzf
@@ -24,79 +49,59 @@ else
 endif
 Plug 'junegunn/fzf.vim'
 
-" Snippets
+" snippets
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippet'
+Plug 'honza/vim-snippets'
 
 " vim-rhubarb
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'  " depends on 'vim-fugitive'
-
-" vim-session
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'  " depends on 'vim-misc'
-
-" vimproc
-let g:make = 'gmake'
-if exists('make')
-  let g:make = 'make'
-endif
-Plug 'Shougo/vimproc.vim', {'do': g:make}
-
-Plug 'thinca/vim-quickrun'
-Plug 'tpope/vim-surround'
-Plug 'neovim/node-host', { 'do': 'npm install'}
+Plug 'tpope/vim-rhubarb' " depends on 'vim-fugitive'
 
 "*******************************************************************************
-" vim-plug : install packages for each languages
+" >vimplug#lang< : install packages for languages
 "*******************************************************************************
 
-"""" Elixir
-Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
-Plug 'carlosgaldino/elixir-snippets'
+" for html5
+Plug 'othree/html5.vim'
 
-"""" go
-"" Go Lang Bundle
-Plug 'fatih/vim-go', {'do': ':GoInstallBinaries', 'for': 'go'}
+" for docker
+Plug 'ekalinin/Dockerfile.vim'
 
-"""" git
+" for Elixir
+Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
+Plug 'mattreduce/vim-mix'
+
+" for java
+Plug 'tfnico/vim-gradle', { 'for': 'groovy' }
+
+" for javascript
+"Plug 'jelera/vim-javascript-syntax', { 'for': ['javascript', 'javascript.jsx'] }
+"Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
+"Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
+"Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
+"Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'javascript.jsx'] }
+"Plug 'jamestthompson3/vim-jest', { 'for': ['javascript', 'javascript.jsx'] }
+
+" Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install' }
+" Plug 'flowtype/vim-flow'
+
+" for golang
+Plug 'fatih/vim-go', { 'for': 'go' }
+
+" for gitignore
 Plug 'gisphm/vim-gitignore'
-
-"""" javascript
-"" typescript
-
-"" vuejs
-Plug 'posva/vim-vue'
-Plug 'leafOfTree/vim-vue-plugin'
-
-"""" python
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-
-"""" rust
-" Vim racer
-Plug 'racer-rust/vim-racer'
-
-" Rust.vim
-Plug 'rust-lang/rust.vim'
-
-"*******************************************************************************
-" vim-plug : end
-""******************************************************************************
 
 call plug#end()
 
-filetype plugin indent on
-
 "*******************************************************************************
-" vim-plug : end
-""******************************************************************************
-
-"" Encoding
-set encoding=utf-8
-set fileencoding=utf-8
+" >conf4basic< : nvim basic config
+"*******************************************************************************
 
 let mapleader=','
 set nu
+set fileencoding=utf-8
+
+set nofoldenable
 
 set autoread
 set hidden
@@ -130,67 +135,136 @@ set hlsearch
 
 syntax on
 
-""""  key mapping
-
 " quickfix
 map <C-n> :cnext<CR>
 map <C-p> :cprevious<CR>
 nnoremap <leader>c :cclose<CR>
 
-" fzf
-nnoremap <leader>o :Files<CR>
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>x :Commands<CR>
+augroup MyFzfCommands
+  command! VimConfig edit ~/.config/nvim/init.vim
+augroup END
 
-" neosnippet
-imap <C-k>  <Plug>(neosnippet_expand_or_jump)
-smap <C-k>  <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>  <Plug>(neosnippet_expand_target)
+colorscheme molokai
 
-
-"""" Plugin Configurations
+"*******************************************************************************
+" >conf4integration< : neovim integration config
+"*******************************************************************************
 
 " integrate Python
-let g:python_host_prog = '/Users/atakashi/.pyenv/shims/python2'
-let g:python3_host_prog = '/Users/atakashi/.pyenv/shims/python3'
+let g:python_host_prog = '/Users/tasaba/.anyenv/envs/pyenv/versions/py2neovim/bin/python'
+let g:python3_host_prog = '/Users/tasaba/.anyenv/envs/pyenv/versions/py3neovim/bin/python'
+let g:ruby_host_prog = '/Users/tasaba/.anyenv/envs/rbenv/versions/2.6.5/bin/neovim-ruby-host'
 
 " integrate node
-let g:node_host_prog = '/Users/atakashi/.ndenv/versions/v11.10.1/bin/neovim-node-host'
+let g:node_host_prog = '/Users/tasaba/.anyenv/envs/nodenv/versions/12.13.0/bin/neovim-node-host'
 
-" for UltiSnips
-let g:UltiSnipsExpandTrigger="<Leader><tab>"
+"*******************************************************************************
+" >conf4ack< : config for 'ack.vim'
+"*******************************************************************************
+
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+"*******************************************************************************
+" >conf4ale< : config for 'ale'
+"*******************************************************************************
+
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 1
+let g:ale_line_on_enter = 0
+"let g:ale_javascript_flow_use_respect_pragma = 0
+" remove 'tsserver' from 'javascript'
+"let g:ale_linters = {
+"  \'javascript': ['eslint', 'flow', 'jscs', 'jshint', 'standard', 'xo']
+"  \}
+
+let g:ale_linters = {
+  \"javascript": ["eslint", "flow"],
+  \}
+let g:ale_fixers = {
+  \'javascript': ['eslint'],
+  \}
+
+let g:ale_javascript_prettier_use_local_config = 1
+
+"*******************************************************************************
+" >conf4cocnvim< : config for 'coc.nvim'
+"*******************************************************************************
+
+" for completion
+inoremap <slient><expr> <D-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+nmap <leader>df <Plug>(coc-definition)
+nmap <leader>dt <Plug>(coc-type-definition)
+nmap <leader>im <Plug>(coc-implementation)
+nmap <leader>rf <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>fx <Plug>(coc-fix-current)
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+"*******************************************************************************
+" >conf4fzf< : config for 'fzf'
+"*******************************************************************************
+
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>fc :Commands<CR>
+nnoremap <leader>fa :Ag
+
+augroup MyFzfCommands
+  command! VimConfig edit ~/.config/nvim/init.vim
+
+  autocmd!
+  autocmd FileType javascript setl shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+augroup END
+
+"*******************************************************************************
+" >conf4rainbow< : config for 'rainbow'
+"*******************************************************************************
+
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+
+"*******************************************************************************
+" >conf4ultisnips< : config for 'ultisnips'
+"*******************************************************************************
+
+let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnapsSnippetDirectories=[/home/nelnal."/.local/share/nvim/snippets"]
+let g:UltiSnapsSnippetDirectories=[$HOME."/.local/share/nvim/snippets"]
 
-" tigris
-let g:tigris#enabled = 1
-let g:tigris#on_the_fly_enabled = 1
-let g:tigris#delay = 500
+"*******************************************************************************
+" >conf4vimairline< : config for 'vim-airline'
+"*******************************************************************************
 
-" for Airline
-set t_Co=256
+if !has('gui_running')
+  set t_Co=256
+endif
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline_theme='molokai'
 let g:airline_powerline_fonts = 1
 
-" for ale
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
-let g:ale_keep_list_window_open = 1
-"let g:ale_javascript_flow_use_respect_pragma = 0
-" remove 'tsserver' from 'javascript'
-"let g:ale_linters = {
-""  \'javascript': ['eslint', 'flow', 'jscs', 'jshint', 'standard', 'xo']
-""  \}
-let g:ale_linters = {
-  \'javascript': ['eslint', 'flow']
-  \}
-let g:ale_fixers = {
-  \'javascript': ['prettier-eslint']
-  \}
-let g:ale_javascript_prettier_use_local_config = 1
+"*******************************************************************************
+" >conf4vimindentguides< : config for 'vim-indent-guides'
+"*******************************************************************************
 
-colorscheme molokai
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 1
+
+augroup MyIndentGuidesAutoCmd
+  let g:indent_guides_auto_colors = 0
+  autocmd! VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#293739 ctermbg=235
+  autocmd! VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#232526 ctermbg=236
+augroup END
+
