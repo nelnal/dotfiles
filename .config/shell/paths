@@ -1,0 +1,5 @@
+# vim: ft=sh
+
+# anyenv
+[[ $PATH == *"$HOME/.anyenv/bin"* ]] || export PATH="$HOME/.anyenv/bin:$PATH"
+
