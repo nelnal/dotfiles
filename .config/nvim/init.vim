@@ -238,9 +238,8 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 " >conf4ultisnips< : config for 'ultisnips'
 "*******************************************************************************
 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsExpandTrigger="<c-tab>"
+let g:UltiSnipsListSnippets="<e-tab>"
 let g:UltiSnapsSnippetDirectories=[$HOME."/.local/share/nvim/snippets"]
 
 "*******************************************************************************
