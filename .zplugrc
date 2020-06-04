@@ -1,0 +1,49 @@
+# vim: ft=sh
+# setup zplug
+export ZPLUG_HOME=${ZDOTDIR:-$HOME}/.zplug
+source $ZPLUG_HOME/init.zsh
+
+zplug "b4b4r07/enhancd", use:enhancd.sh
+zplug "b4b4r07/emoji-cli", on:"stedolan/jq"
+#zplug "hchbaw/opp.zsh", do:"__zsh_version 5.0.8"
+zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
+zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
+zplug "mollifier/cd-gitroot"
+zplug "mrowa44/emojify", as:command
+zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+# コマンド履歴から直近の類似を暗示
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-history-substring-search", hook-build:"__zsh_version: 4.3"
+zplug "zsh-users/zsh-completions"
+
+zplug "modules/completion", from:prezto
+zplug "modules/directory", from:prezto
+zplug "modules/editor", from:prezto
+zplug "modules/environment", from:prezto
+zplug "modules/history", from:prezto
+zplug "modules/homebrew", from:prezto
+zplug "modules/prompt", from:prezto
+zplug "modules/ruby", from:prezto
+zplug "modules/spectrum", from:prezto
+zplug "modules/terminal", from:prezto
+zplug "modules/utility", from:prezto
+
+# source Prezto
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# 未インストールのプラグインがあるときのみインストールを行う
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
+
+zplug load
+
+autoload -Uz compinit
+compinit -u
+prompt steeef

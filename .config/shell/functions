@@ -1,6 +1,0 @@
-# vim: ft=sh
-
-# for **env
-type -t anyenv 2>&1 > /dev/null && eval "$(anyenv init -)"
-type -t goenv 2>&1 > /dev/null && eval "$(goenv init -)"
-
