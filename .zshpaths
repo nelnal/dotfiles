@@ -1,19 +1,20 @@
 # vim: ft=zsh
+path=(
+  $HOME/bin
+  $HOME/.anyenv/bin
+  ${GOPATH:-$HOME/go}/bin
+  $path
+)
+
+typeset -gU path PATH
 (nocorrect which direnv > /dev/null) && eval "$(direnv hook zsh)"
 
 (nocorrect which anyenv > /dev/null) && eval "$(anyenv init -)"
 (nocorrect which goenv > /dev/null) && eval "$(goenv init -)"
 (nocorrect which nodenv > /dev/null) && eval "$(nodenv init -)"
 (nocorrect which pyenv > /dev/null) && eval "$(pyenv init -)"
-(nocorrect which pyenv > /dev/null) && eval "$(pyenv virtualenv-init -)"
+if [ -d "$HOME/.pyenv/plugins/pyenv-virtualenv" ]; then eval "$(pyenv virtualenv-init -)"; fi
 (nocorrect which rbenv > /dev/null) && eval "$(rbenv init -)"
 
 (nocorrect which npm > /dev/null) && npm_bin_path=$(npm bin -g)
 
-path=(
-  $HOME/bin
-  ${GOPATH:-$HOME/go}/bin
-  $path
-)
-
-typeset -gU path PATH

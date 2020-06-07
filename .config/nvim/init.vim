@@ -150,13 +150,15 @@ colorscheme molokai
 " >conf4integration< : neovim integration config
 "*******************************************************************************
 
-" integrate Python
-let g:python_host_prog = '/Users/tasaba/.anyenv/envs/pyenv/versions/py2neovim/bin/python'
-let g:python3_host_prog = '/Users/tasaba/.anyenv/envs/pyenv/versions/py3neovim/bin/python'
-let g:ruby_host_prog = '/Users/tasaba/.anyenv/envs/rbenv/versions/2.6.5/bin/neovim-ruby-host'
-
 " integrate node
-let g:node_host_prog = '/Users/tasaba/.anyenv/envs/nodenv/versions/12.13.0/bin/neovim-node-host'
+let g:node_host_prog = '/home/nelnal/.anyenv/envs/nodenv/versions/12.14.0/bin/neovim-node-host'
+
+" integrate Python
+let g:python_host_prog = '/home/nelnal/.anyenv/envs/pyenv/versions/py2neovim/bin/python'
+let g:python3_host_prog = '/home/nelnal/.anyenv/envs/pyenv/versions/py3neovim/bin/python'
+
+" integrate Ruby
+let g:ruby_host_prog = '/home/nelnal/.anyenv/envs/rbenv/versions/2.7.1/bin/neovim-ruby-host'
 
 "*******************************************************************************
 " >conf4ack< : config for 'ack.vim'
