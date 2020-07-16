@@ -116,7 +116,7 @@ set laststatus=2
 set showtabline=2
 
 " Tab 系
-set list listchars=tab:>-
+set list listchars=tab:>-,trail:-,eol:↲
 set expandtab
 set shiftwidth=2
 set tabstop=2
@@ -265,7 +265,9 @@ let g:indent_guides_start_level = 1
 
 augroup MyIndentGuidesAutoCmd
   let g:indent_guides_auto_colors = 0
-  autocmd! VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#293739 ctermbg=235
-  autocmd! VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#232526 ctermbg=236
+
+  autocmd!
+  autocmd! VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#293739 ctermbg=235 ctermfg=59
+  autocmd! VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#232526 ctermbg=236 ctermfg=59
 augroup END
 
