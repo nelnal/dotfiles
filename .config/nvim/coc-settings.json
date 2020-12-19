@@ -1,0 +1,12 @@
+{
+  "snippets.userSnippetsDirectory": "/Users/takashi.asaba/.local/share/nvim/snippets",
+  "languageserver": {
+    "golangci-lint-languageserver": {
+      "command": "golangci-lint-langserver",
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "command": ["golangci-lint", "run"]
+      }
+    }
+  }
+}
