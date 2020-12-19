@@ -86,11 +86,20 @@ Plug 'tfnico/vim-gradle', { 'for': 'groovy' }
 " Plug 'flowtype/vim-flow'
 
 " for golang
-Plug 'fatih/vim-go', { 'for': 'go' }
+" Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'mattn/vim-goimports'
 
 " for gitignore
 Plug 'gisphm/vim-gitignore'
 
+
+" for protobuf (buf)
+Plug 'bufbuild/vim-buf'
+
+"*******************************************************************************
+" >vimplug#end< : end of vim-plug
+"*******************************************************************************
+"
 call plug#end()
 
 "*******************************************************************************
@@ -176,16 +185,15 @@ let g:ale_open_list = 1
 let g:ale_keep_list_window_open = 1
 let g:ale_line_on_enter = 0
 "let g:ale_javascript_flow_use_respect_pragma = 0
-" remove 'tsserver' from 'javascript'
-"let g:ale_linters = {
-"  \'javascript': ['eslint', 'flow', 'jscs', 'jshint', 'standard', 'xo']
-"  \}
 
 let g:ale_linters = {
   \"javascript": ["eslint", "flow"],
+  \"go": [],
+  \"proto": ["buf-check-lint"],
   \}
 let g:ale_fixers = {
   \'javascript': ['eslint'],
+  \"go": [],
   \}
 
 let g:ale_javascript_prettier_use_local_config = 1
@@ -197,22 +205,53 @@ let g:ale_javascript_prettier_use_local_config = 1
 " for completion
 inoremap <slient><expr> <D-space> coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 nmap <leader>df <Plug>(coc-definition)
-nmap <leader>dt <Plug>(coc-type-definition)
+nmap <leader>td <Plug>(coc-type-definition)
 nmap <leader>im <Plug>(coc-implementation)
 nmap <leader>rf <Plug>(coc-references)
-nmap <leader>rn <Plug>(coc-rename)
-nmap <leader>fx <Plug>(coc-fix-current)
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap <leader>dn <Plug>(coc-diagnostic-next)
+nmap <leader>dp <Plug>(coc-diagnostic-prev)
+
+nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>fmt <Plug>(coc-format)
+
+nmap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>qf <Plug>(coc-fix-current)
+
+nnoremap <silent>K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" for coc-snippets
+
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
 
 "*******************************************************************************
 " >conf4fzf< : config for 'fzf'
@@ -220,8 +259,8 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>fc :Commands<CR>
-nnoremap <leader>fa :Ag
+nnoremap <leader>cmd :Commands<CR>
+nnoremap <leader>S :Ag
 
 augroup MyFzfCommands
   command! VimConfig edit ~/.config/nvim/init.vim
@@ -240,9 +279,10 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 " >conf4ultisnips< : config for 'ultisnips'
 "*******************************************************************************
 
-let g:UltiSnipsExpandTrigger="<c-tab>"
-let g:UltiSnipsListSnippets="<e-tab>"
-let g:UltiSnapsSnippetDirectories=[$HOME."/.local/share/nvim/snippets"]
+" use coc.nvim
+"let g:UltiSnipsExpandTrigger="<c-tab>"
+"let g:UltiSnipsListSnippets="<e-tab>"
+"let g:UltiSnapsSnippetDirectories=[$HOME."/.local/share/nvim/snippets"]
 
 "*******************************************************************************
 " >conf4vimairline< : config for 'vim-airline'
@@ -271,3 +311,7 @@ augroup MyIndentGuidesAutoCmd
   autocmd! VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#232526 ctermbg=236 ctermfg=59
 augroup END
 
+"*******************************************************************************
+" >conf4vim-goimports< : config for 'vim-goimports'
+"*******************************************************************************
+let g:goimports_simplify = 1
