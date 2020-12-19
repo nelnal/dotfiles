@@ -1,0 +1,51 @@
+snippet Describe "(ginkgo) test description"
+Describe("${1:description}", func() {
+	${0}
+})
+endsnippet
+
+snippet BeforeEach "(ginkgo) before each test"
+BeforeEach(func() {
+	${0}
+})
+endsnippet
+
+snippet AfterEach "(ginkgo) after each test"
+AfterEach(func() {
+	${0}
+})
+endsnippet
+
+snippet Context "(ginkgo) test context"
+Context("${1:description}", func() {
+	${0}
+})
+endsnippet
+
+snippet When "(ginkgo) test condition"
+When("${1:description}", func() {
+	${0}
+})
+endsnippet
+
+snippet It "ginkgo
+It("${1:result}", func() {
+	${0}
+})
+endsnippet
+
+snippet ExpERR "(ginkgo) expect occurred error"
+Expect(${1:err}).Should(HaveOccurred())
+endsnippet
+
+snippet ExpNERR "(ginkgo) exp" b
+Expect(${1:err}).ShouldNot(HaveOccured())
+endsnippet
+
+snippet ExpTE "(ginkgo) expect to equal"
+Expect(${1:actual}).To(Equal(${2}))
+endsnippet
+
+snippet ExpSHL "(ginkgo) expect shoud have len"
+Expect(${1:actual}).Should(HaveLen(${2}))
+endsnippet
