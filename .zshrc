@@ -1,6 +1,6 @@
 # vim: ft=zsh
 
-for file in ~/.{zshpaths,exports,aliases,zplugrc}; do
+for file in ~/.{zshpaths,exports,exports.priv,aliases,zplugrc}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
