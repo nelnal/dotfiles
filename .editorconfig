@@ -7,6 +7,10 @@ indent_size = 2
 indent_style = space
 insert_final_newline = false
 
+[{go.mod,go.sum,*.go}]
+indent_style = tab
+indent_size = 2
+
 [*.{md,markdown}]
-trim_trailing_whitespace = false:w
+trim_trailing_whitespace = false
 
