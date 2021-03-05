@@ -1,5 +1,11 @@
 {
-  "snippets.userSnippetsDirectory": "/Users/takashi.asaba/.local/share/nvim/snippets",
+  "coc": {
+    "preferences": {
+      "formatOnType": true,
+      "formatOnSaveFiletypes": ["go", "javascript", "typescript", "vue"]
+    }
+  },
+  "eslint.filetypes": ["javascript", "typescript", "vue"],
   "languageserver": {
     "golangci-lint-languageserver": {
       "command": "golangci-lint-langserver",
@@ -8,5 +14,11 @@
         "command": ["golangci-lint", "run"]
       }
     }
+  },
+  "snippets": {
+    "ultisnips.directories": [
+      "/Users/takashi.asaba/.local/share/nvim/plugged/vim-snippets/UltiSnips"
+    ],
+    "userSnippetsDirectory": "/Users/takashi.asaba/.local/share/nvim/snippets"
   }
 }

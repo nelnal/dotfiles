@@ -48,9 +48,10 @@ else
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install -all' }
 endif
 Plug 'junegunn/fzf.vim'
+Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 
 " snippets
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " vim-rhubarb
@@ -187,12 +188,12 @@ let g:ale_line_on_enter = 0
 "let g:ale_javascript_flow_use_respect_pragma = 0
 
 let g:ale_linters = {
-  \"javascript": ["eslint", "flow"],
+  \"javascript": [],
   \"go": [],
   \"proto": ["buf-check-lint"],
   \}
 let g:ale_fixers = {
-  \'javascript': ['eslint'],
+  \'javascript': [],
   \"go": [],
   \}
 
@@ -218,6 +219,11 @@ nmap <leader>fmt <Plug>(coc-format)
 
 nmap <leader>ac <Plug>(coc-codeaction)
 nmap <leader>qf <Plug>(coc-fix-current)
+
+nmap <leader>cc :<C-u>CocFzfList commands<CR>
+nmap <leader>ld :<C-u>CocFzfList diagnostics<CR>
+nmap <leader>lo :<C-u>CocFzfList outline<CR>
+nmap <leader>ls :<C-u>CocFzfList symbols<CR>
 
 nnoremap <silent>K :call <SID>show_documentation()<CR>
 

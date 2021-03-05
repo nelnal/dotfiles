@@ -39,11 +39,11 @@ Expect(${1:err}).Should(HaveOccurred())
 endsnippet
 
 snippet ExpNERR "(ginkgo) exp" b
-Expect(${1:err}).ShouldNot(HaveOccured())
+Expect(${1:err}).ShouldNot(HaveOccurred())
 endsnippet
 
-snippet ExpTE "(ginkgo) expect to equal"
-Expect(${1:actual}).To(Equal(${2}))
+snippet ExpSE "(ginkgo) expect to equal"
+Expect(${1:actual}).Should(Equal(${2}))
 endsnippet
 
 snippet ExpSHL "(ginkgo) expect shoud have len"
