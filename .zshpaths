@@ -1,20 +1,38 @@
 # vim: ft=zsh
-path=(
-  $HOME/bin
-  $HOME/.anyenv/bin
-  ${GOPATH:-$HOME/go}/bin
-  $path
-)
+#export GOENV_ROOT=${HOME}/.goenv
 
-typeset -gU path PATH
 (nocorrect which direnv > /dev/null) && eval "$(direnv hook zsh)"
 
-(nocorrect which anyenv > /dev/null) && eval "$(anyenv init -)"
-(nocorrect which goenv > /dev/null) && eval "$(goenv init -)"
-(nocorrect which nodenv > /dev/null) && eval "$(nodenv init -)"
-(nocorrect which pyenv > /dev/null) && eval "$(pyenv init -)"
-if [ -d "$HOME/.pyenv/plugins/pyenv-virtualenv" ]; then eval "$(pyenv virtualenv-init -)"; fi
-(nocorrect which rbenv > /dev/null) && eval "$(rbenv init -)"
+if [ -d "${HOME}/.anyenv" ]; then
+  #echo "exists $HOME/.anyenv"
+  #anyenv_path="$HOME/.anyenv/bin"
+  #echo ${PATH#*$anyenv_path}
+  #test "${PATH#*$anyenv_path}" = "$PATH"
+  #echo $?
+  if [ "${PATH#*$anyenv_path}" = "$PATH" ]; then
+    #echo "anyenv not in PATH"
+    (nocorrect which anyenv > /dev/null) && eval "$(anyenv init - --no-rehash)"
+  fi
+  path=(
+    #$GOENV_ROOT/bin
+    $HOME/bin
+    $HOME/.bin
+    $HOME/.anyenv/bin
+    $path
+  )
 
-(nocorrect which npm > /dev/null) && npm_bin_path=$(npm bin -g)
+  for dir in $(ls "$HOME/.anyenv/envs"); do
+    path=(
+      $dir(N-/)
+      $path
+    )
+  done
 
+  typeset -gU path PATH
+    #(nocorrect which goenv > /dev/null) && eval "$(goenv init -)"
+    #(nocorrect which nodenv > /dev/null) && eval "$(nodenv init -)"
+    #(nocorrect which pyenv > /dev/null) && eval "$(pyenv init -)"
+    #if [ -d "$HOME/.pyenv/plugins/pyenv-virtualenv" ]; then eval "$(pyenv virtualenv-init -)"; fi
+    #(nocorrect which rbenv > /dev/null) && eval "$(rbenv init -)"
+    #(nocorrect which npm > /dev/null) && npm_bin_path=$(npm bin -g)
+fi

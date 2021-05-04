@@ -1,24 +1,35 @@
 {
-  "coc": {
-    "preferences": {
-      "formatOnType": true,
-      "formatOnSaveFiletypes": ["go", "javascript", "typescript", "vue"]
-    }
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnSaveFiletypes": ["go", "javascript", "typescript", "vue"],
+  "explorer.width": 50,
+  "explorer.icon.customIcons": {
+    "icons": {},
+    "extensions": {
+      ".go": "#25e0f5"
+    },
+    "filenames": {},
+    "dirnames": {},
+    "patternMatches": {},
+    "dirPatternMatches": {}
   },
-  "eslint.filetypes": ["javascript", "typescript", "vue"],
+  "explorer.filename.colored.enable": true,
+  "explorer.file.showHiddenFiles": true,
+  "explorer.previewAction.onHover": "labeling",
+  "explorer.icon.enableVimDevicons": true,
+  "explorer.icon.enableNerdfont": true,
+  "go.goplsOptions": {
+    "local": "github.com/88labs"
+  },
   "languageserver": {
-    "golangci-lint-languageserver": {
-      "command": "golangci-lint-langserver",
-      "filetypes": ["go"],
-      "initializationOptions": {
-        "command": ["golangci-lint", "run"]
-      }
+    "terraform": {
+      "command": "terraform-lsp",
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
+      "initializationOptions": {}
     }
   },
-  "snippets": {
-    "ultisnips.directories": [
-      "/Users/takashi.asaba/.local/share/nvim/plugged/vim-snippets/UltiSnips"
-    ],
-    "userSnippetsDirectory": "/Users/takashi.asaba/.local/share/nvim/snippets"
-  }
+  "snippets.ultisnips.directories": [
+    "/Users/takashi.asaba/.local/share/nvim/plugged/vim-snippets/UltiSnips"
+  ],
+  "snippets.userSnippetsDirectory": "/Users/takashi.asaba/.local/share/nvim/snippets"
 }

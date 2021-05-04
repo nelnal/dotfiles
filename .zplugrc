@@ -13,6 +13,7 @@ zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 zplug "mafredri/zsh-async"
 zplug "mollifier/cd-gitroot"
 zplug "mrowa44/emojify", as:command
+zplug "nnao45/zsh-kubectl-completion"
 zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 # コマンド履歴から直近の類似を暗示

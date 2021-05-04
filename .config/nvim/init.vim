@@ -25,20 +25,23 @@ call plug#begin('~/.local/share/nvim/plugged')
 "*******************************************************************************
 
 Plug 'mileszs/ack.vim'
-Plug 'dense-analysis/ale', { 'tag': 'v2.3.1'}
+Plug 'dense-analysis/ale', { 'tag': 'v3.1.0',  'on':  'ALEToggle' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'editorconfig/editorconfig-vim'
-Plug 'luochen1990/rainbow'
-Plug 'kassio/neoterm'
 Plug 'itchyny/lightline.vim'
+Plug 'kassio/neoterm'
+Plug 'luochen1990/rainbow'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'sheerun/vim-polyglot'
 Plug 'thinca/vim-quickrun'
 Plug 'tpope/vim-surround'
+Plug 'hashivim/vim-terraform'
 
 " for colorschema
+Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'ghifarit53/tokyonight-vim'
 Plug 'tomasr/molokai'
 
 " fzf
@@ -53,6 +56,8 @@ Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 " snippets
 "Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+Plug 'ryanoasis/vim-devicons'
 
 " vim-rhubarb
 Plug 'tpope/vim-fugitive'
@@ -87,8 +92,6 @@ Plug 'tfnico/vim-gradle', { 'for': 'groovy' }
 " Plug 'flowtype/vim-flow'
 
 " for golang
-" Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'mattn/vim-goimports'
 
 " for gitignore
 Plug 'gisphm/vim-gitignore'
@@ -143,7 +146,7 @@ set incsearch
 set wrapscan
 set hlsearch
 
-syntax on
+set termguicolors
 
 " quickfix
 map <C-n> :cnext<CR>
@@ -154,7 +157,11 @@ augroup MyFzfCommands
   command! VimConfig edit ~/.config/nvim/init.vim
 augroup END
 
-colorscheme molokai
+syntax enable
+let g:tokyonight_style = 'night'
+set background=dark
+" colorscheme molokai
+colorscheme  tokyonight
 
 "*******************************************************************************
 " >conf4integration< : neovim integration config
@@ -259,6 +266,8 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
+nmap <space>e :CocCommand explorer<cr>
+
 "*******************************************************************************
 " >conf4fzf< : config for 'fzf'
 "*******************************************************************************
@@ -280,6 +289,18 @@ augroup END
 "*******************************************************************************
 
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+
+let g:rainbow_conf = {
+\	'guifgs': ['skyblue', 'darkorange3', 'seagreen3', 'firebrick'],
+\	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+\	'guis': [''],
+\	'cterms': [''],
+\	'operators': '_,_',
+\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+\	'separately': {
+\		'*': {},
+\	}
+\}
 
 "*******************************************************************************
 " >conf4ultisnips< : config for 'ultisnips'
@@ -313,11 +334,12 @@ augroup MyIndentGuidesAutoCmd
   let g:indent_guides_auto_colors = 0
 
   autocmd!
-  autocmd! VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#293739 ctermbg=235 ctermfg=59
-  autocmd! VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#232526 ctermbg=236 ctermfg=59
+  autocmd! VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#262626 guifg=#5f5f5f ctermbg=235 ctermfg=59
+  autocmd! VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#303030 guifg=#5f5f5f ctermbg=236 ctermfg=59
 augroup END
 
 "*******************************************************************************
-" >conf4vim-goimports< : config for 'vim-goimports'
+" >conf4vim-terraform< : config for 'vim-terraform'
 "*******************************************************************************
-let g:goimports_simplify = 1
+"
+let g:terraform_fmt_on_save=1

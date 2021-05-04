@@ -1,0 +1,5 @@
+# vim: ft=sh
+loadgoenv() {
+  eval "$(goenv init - --no-rehash)"
+  export PATH="$GOROOT/bin:$PATH"
+}
