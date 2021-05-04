@@ -62,3 +62,5 @@ export SCM_CHECK=true
 source "$BASH_IT"/bash_it.sh
 
 source ~/.config/bash/.bashrc;
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -48,7 +48,7 @@ Plug 'tomasr/molokai'
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf'
 else
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install -all' }
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 endif
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
