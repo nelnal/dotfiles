@@ -13,8 +13,9 @@ if [ -d "${HOME}/.anyenv" ]; then
     #echo "anyenv not in PATH"
     (nocorrect which anyenv > /dev/null) && eval "$(anyenv init - --no-rehash)"
   fi
+
   path=(
-    #$GOENV_ROOT/bin
+    $GOPATH/bin
     $HOME/bin
     $HOME/.bin
     $HOME/.anyenv/bin

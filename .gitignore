@@ -24,6 +24,7 @@
 .guard_history
 .hyper_plugins/
 .irb_history
+.k9s/
 .kube/
 .lesshst
 .local/share/nvim/*
@@ -38,6 +39,7 @@
 .tig_history
 .vim/
 .viminfo
+.vscode/
 .wget-hsts
 .zcompdump*
 .zplug/
@@ -48,6 +50,7 @@ Applications/
 Desktop/
 Documents/
 Downloads/
+ghq/
 go/
 javasharedresources/
 Library/

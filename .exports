@@ -19,10 +19,12 @@ LESS_TERMCAP_ue=$(tput rmul; tput sgr0)			# end underline
 export LESS_TERMCAP_ue
 export GROFF_NO_SGR=1			# for konsole and gnome-terminal
 
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 export GO11MODULE=on
 export GOPRIVATE=
+export GOPATH=$HOME/go
 
 export HISTORY_IGNORE="(awstoken)"
 
