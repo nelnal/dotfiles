@@ -7,7 +7,7 @@ fi
 
 # vim: ft=zsh
 
-for file in ~/.{zshpaths,exports,exports.priv,aliases,zplugrc,funcs}; do
+for file in ~/.{exports,exports.priv,aliases,zplugrc,funcs,zshpaths}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -20,11 +20,10 @@ fpath=(
 typeset -gU fpath FPATH
 
 bindkey -e
+bindkey "^[^Q" cd_ghq_list
 
 # load shell functions (contains completions)
 fpath=(/usr/local/share/zsh-completions $fpath)
-
-bindkey -e
 
 [[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
 

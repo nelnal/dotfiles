@@ -1,5 +1,11 @@
 # vim: ft=sh
-loadgoenv() {
-  eval "$(goenv init - --no-rehash)"
-  export PATH="$GOROOT/bin:$PATH"
+function cd_ghq_list() {
+  local dest_dir="$(ghq list | fzf)"
+  if [ -n "$dest_dir" ]; then
+    BUFFER="cd $(ghq root)/$dest_dir"
+    zle accept-line
+  fi
+  zle clear-scrren
 }
+
+zle -N cd_ghq_list
