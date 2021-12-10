@@ -2,6 +2,18 @@ snippet Errorf "fmt.Errorf"
 fmt.Errorf("${1}: %w", err)
 endsnippet
 
+snippet ttest "table test format"
+for _, tt := range []struct{
+	name string
+}{
+	{
+		name: "test for",
+	},
+} {
+	tt := tt
+}
+endsnippet
+
 snippet Describe "(ginkgo) test description"
 Describe("${1:description}", func() {
 	${0}
@@ -44,7 +56,11 @@ When("${1:description}", func() {
 })
 endsnippet
 
-snippet It "ginkgo
+snippet ByF "(ginkgo) By and fmt.Sprintf"
+By(fmt.Sprintf("${1:format}", ${2:arg})
+endsnippet
+
+snippet It "(ginkgo) it"
 It("${1:result}", func() {
 	${0}
 })
