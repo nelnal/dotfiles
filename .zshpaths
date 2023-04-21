@@ -19,6 +19,7 @@ if [ -d "${HOME}/.anyenv" ]; then
     $HOME/bin
     $HOME/.bin
     $HOME/.anyenv/bin
+    $(npm prefix --location=global)/bin
     $path
   )
 
