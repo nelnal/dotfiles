@@ -19,6 +19,10 @@ if [ -d "${HOME}/.anyenv" ]; then
     $HOME/bin
     $HOME/.bin
     $HOME/.anyenv/bin
+    $HOME/.config/yarn/global/node_modules/.bin
+    # for rancher desktop
+    $HOME/.rd/bin
+    $HOME/.yarn/bin
     $(npm prefix --location=global)/bin
     $path
   )
