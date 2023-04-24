@@ -7,7 +7,7 @@ fi
 
 # vim: ft=zsh
 
-for file in ~/.{exports,exports.priv,aliases,zplugrc,funcs,zshpaths}; do
+for file in ~/.{zshpaths,exports,exports.priv,aliases,zplugrc,funcs}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -21,6 +21,7 @@ typeset -gU fpath FPATH
 
 bindkey -e
 bindkey "^[^Q" cd_ghq_list
+bindkey "^Y^Q" cd_ghq_list
 
 # load shell functions (contains completions)
 fpath=(/usr/local/share/zsh-completions $fpath)
@@ -34,3 +35,9 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+# export PATH="/Users/takashi.asaba/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
