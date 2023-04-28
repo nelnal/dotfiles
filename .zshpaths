@@ -6,7 +6,7 @@
 if [ -d "${HOME}/.anyenv" ]; then
 
   path=(
-    $GOPATH/bin(N-/)
+    $HOME/go/bin(N-/)
     $HOME/bin(N-/)
     $HOME/.bin(N-/)
     $HOME/.anyenv/bin(N-/)
