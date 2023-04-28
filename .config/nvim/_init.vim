@@ -25,43 +25,56 @@ call plug#begin('~/.local/share/nvim/plugged')
 "*******************************************************************************
 
 Plug 'mileszs/ack.vim'
-Plug 'dense-analysis/ale', { 'tag': 'v3.1.0',  'on':  'ALEToggle' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'editorconfig/editorconfig-vim'
-Plug 'itchyny/lightline.vim'
-Plug 'kassio/neoterm'
-Plug 'luochen1990/rainbow'
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'sheerun/vim-polyglot'
-Plug 'thinca/vim-quickrun'
 Plug 'tpope/vim-surround'
-Plug 'hashivim/vim-terraform'
+if !exists('g:vscode')
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'itchyny/lightline.vim'
+  " Plug 'kassio/neoterm'
+  Plug 'luochen1990/rainbow'
+  Plug 'akinsho/toggleterm.nvim'
+  Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'thinca/vim-quickrun', {'tag' : '*'}
+endif
 
 " for colorschema
-Plug 'altercation/vim-colors-solarized'
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'ghifarit53/tokyonight-vim'
-Plug 'tomasr/molokai'
+if !exists('g:vscode')
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'ghifarit53/tokyonight-vim'
+  Plug 'tomasr/molokai'
+endif
+
+if !exists('g:vscode')
+  Plug 'github/copilot.vim'
+endif
 
 " fzf
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf'
-else
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+if !exists('g:vscode')
+  if isdirectory('/usr/local/opt/fzf')
+    Plug '/usr/local/opt/fzf'
+  else
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  endif
+  Plug 'junegunn/fzf.vim'
+  Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 endif
-Plug 'junegunn/fzf.vim'
-Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 
 " snippets
 "Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-Plug 'ryanoasis/vim-devicons'
+if !exists('g:vscode')
+  Plug 'ryanoasis/vim-devicons'
+endif
 
 " vim-rhubarb
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb' " depends on 'vim-fugitive'
+if !exists('g:vscode')
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb' " depends on 'vim-fugitive'
+endif
 
 "*******************************************************************************
 " >vimplug#lang< : install packages for languages
@@ -99,6 +112,12 @@ Plug 'gisphm/vim-gitignore'
 
 " for protobuf (buf)
 Plug 'bufbuild/vim-buf'
+
+" for ruby
+Plug 'thoughtbot/vim-rspec'
+
+" for terraform
+Plug 'hashivim/vim-terraform'
 
 "*******************************************************************************
 " >vimplug#end< : end of vim-plug
@@ -168,14 +187,14 @@ colorscheme  tokyonight
 "*******************************************************************************
 
 " integrate node
-let g:node_host_prog = '/home/nelnal/.anyenv/envs/nodenv/versions/12.14.0/bin/neovim-node-host'
+let g:node_host_prog = '/Users/takashi.asaba/.anyenv/envs/nodenv/versions/14.15.1/bin/neovim-node-host'
 
 " integrate Python
-let g:python_host_prog = '/home/nelnal/.anyenv/envs/pyenv/versions/py2neovim/bin/python'
-let g:python3_host_prog = '/home/nelnal/.anyenv/envs/pyenv/versions/py3neovim/bin/python'
+let g:python_host_prog = '/Users/takashi.asaba/.anyenv/envs/pyenv/versions/py2neovim/bin/python'
+let g:python3_host_prog = '/Users/takashi.asaba/.anyenv/envs/pyenv/versions/py3neovim/bin/python'
 
 " integrate Ruby
-let g:ruby_host_prog = '/home/nelnal/.anyenv/envs/rbenv/versions/2.7.1/bin/neovim-ruby-host'
+let g:ruby_host_prog = '/Users/takashi.asaba/.anyenv/envs/rbenv/versions/3.2.2/bin/neovim-ruby-host'
 
 "*******************************************************************************
 " >conf4ack< : config for 'ack.vim'
@@ -209,6 +228,46 @@ let g:ale_javascript_prettier_use_local_config = 1
 "*******************************************************************************
 " >conf4cocnvim< : config for 'coc.nvim'
 "*******************************************************************************
+"
+"" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
 " for completion
 inoremap <slient><expr> <D-space> coc#refresh()
@@ -217,6 +276,7 @@ nmap <leader>df <Plug>(coc-definition)
 nmap <leader>td <Plug>(coc-type-definition)
 nmap <leader>im <Plug>(coc-implementation)
 nmap <leader>rf <Plug>(coc-references)
+nmap <leader>dc <Plug>(coc-declaration)
 
 nmap <leader>dn <Plug>(coc-diagnostic-next)
 nmap <leader>dp <Plug>(coc-diagnostic-prev)
@@ -233,20 +293,6 @@ nmap <leader>lo :<C-u>CocFzfList outline<CR>
 nmap <leader>ls :<C-u>CocFzfList symbols<CR>
 
 nnoremap <silent>K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " for coc-snippets
 
@@ -269,6 +315,12 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
 nmap <space>e :CocCommand explorer<cr>
+
+" imap <slient><script><expr> <C-n> copilot#Accept("\<CR>")
+
+" Add missing imports on save
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
 
 "*******************************************************************************
 " >conf4fzf< : config for 'fzf'
@@ -303,6 +355,11 @@ let g:rainbow_conf = {
 \		'*': {},
 \	}
 \}
+
+"*******************************************************************************
+" >conf4toggleterm< : config for 'toggleterm'
+"*******************************************************************************
+lua require("toggleterm").setup()
 
 "*******************************************************************************
 " >conf4ultisnips< : config for 'ultisnips'
@@ -340,6 +397,14 @@ augroup MyIndentGuidesAutoCmd
   autocmd! VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#303030 guifg=#5f5f5f ctermbg=236 ctermfg=59
 augroup END
 
+"*******************************************************************************
+" >conf4vim-rspec< : config for 'vim-terraform'
+"*******************************************************************************
+
+nmap <leader>rcs :RunCurrentSpecFile()<CR>
+nmap <leader>rns :RunNearestSpec()<CR>
+nmap <leader>rls :RunLastSpec()<CR>
+"
 "*******************************************************************************
 " >conf4vim-terraform< : config for 'vim-terraform'
 "*******************************************************************************

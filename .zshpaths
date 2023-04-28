@@ -4,43 +4,35 @@
 (nocorrect which direnv > /dev/null) && eval "$(direnv hook zsh)"
 
 if [ -d "${HOME}/.anyenv" ]; then
-  #echo "exists $HOME/.anyenv"
-  #anyenv_path="$HOME/.anyenv/bin"
-  #echo ${PATH#*$anyenv_path}
-  #test "${PATH#*$anyenv_path}" = "$PATH"
-  #echo $?
-  if [ "${PATH#*$anyenv_path}" = "$PATH" ]; then
-    #echo "anyenv not in PATH"
-    (nocorrect which anyenv > /dev/null) && eval "$(anyenv init - --no-rehash)"
-  fi
 
   path=(
-    $GOPATH/bin
-    $HOME/bin
-    $HOME/.bin
-    $HOME/.anyenv/bin
-    $HOME/.config/yarn/global/node_modules/.bin
+    $HOME/go/bin(N-/)
+    $HOME/bin(N-/)
+    $HOME/.bin(N-/)
+    $HOME/.anyenv/bin(N-/)
+    $HOME/.config/yarn/global/node_modules/.bin(N-/)
     # for rancher desktop
-    $HOME/.rd/bin
-    $HOME/.yarn/bin
-    $(npm prefix --location=global)/bin
+    $HOME/.rd/bin(N-/)
+    $HOME/.yarn/bin(N-/)
+    #$(npm prefix --location=global)/bin(N-/)
     $path
   )
 
-  for dir in $(ls "$HOME/.anyenv/envs"); do
+  for dir in $(ls -d $HOME/.anyenv/envs/*); do
     path=(
-      $dir(N-/)
+      $dir/bin(N-/)
       $path
     )
   done
 
   typeset -gU path PATH
-    #(nocorrect which goenv > /dev/null) && eval "$(goenv init -)"
-    #(nocorrect which nodenv > /dev/null) && eval "$(nodenv init -)"
-    #(nocorrect which pyenv > /dev/null) && eval "$(pyenv init -)"
-    #if [ -d "$HOME/.pyenv/plugins/pyenv-virtualenv" ]; then eval "$(pyenv virtualenv-init -)"; fi
-    #(nocorrect which rbenv > /dev/null) && eval "$(rbenv init -)"
-    #(nocorrect which npm > /dev/null) && npm_bin_path=$(npm bin -g)
+
+  eval "$(anyenv init - --no-rehash)"
+  eval "$(nodenv init -)"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+  eval "$(rbenv init -)"
+  npm_bin_path=$(npm bin -g)
 fi
 
 # The next line updates PATH for the Google Cloud SDK.

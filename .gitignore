@@ -10,6 +10,7 @@
 /.clasprc.json
 /.config/anyenv/
 /.config/coc/
+/.config/github-copilot
 .config/nvim/.netrwhist
 /.docker/
 /.dlv/
@@ -30,6 +31,9 @@
 /.kube/
 /.lesshst
 /.local/share/nvim/*
+/.local/share/direnv/*
+/.local/share/karabiner/*
+/.local/share/wezterm/*
 /.m2/
 /.node_repl_history
 /.npm/
@@ -45,6 +49,7 @@
 /.viminfo
 /.vscode/
 /.wget-hsts
+/.yarn/
 /.zcompdump*
 /.zplug/
 /.zprofile
@@ -63,5 +68,6 @@ javasharedresources/
 /Pictures/
 /Public/
 /sdk/
+/node_modules/
 slim.report.json
 /workspace/
