@@ -22,6 +22,12 @@ require("packer").startup(function(use)
   -- aerial.nvim (for outline)
   use("stevearc/aerial.nvim")
 
+  -- dap
+  use({
+    "mfussenegger/nvim-dap",
+    "suketa/nvim-dap-ruby",
+  })
+
   -- fidget
   use("j-hui/fidget.nvim")
 
@@ -36,6 +42,9 @@ require("packer").startup(function(use)
 
   -- lspkind-nvim
   use("onsails/lspkind.nvim")
+
+  -- lspsaga
+  use("nvimdev/lspsaga.nvim")
 
   -- mason
   use({
@@ -195,7 +204,7 @@ cmp.setup({
   -- autocomplete = false,
   -- },
   experimental = {
-    ghost_text = true,
+    ghost_text = false,
   },
   formatting = {
     format = lspkind.cmp_format({
@@ -230,7 +239,10 @@ cmp.setup({
     { name = "buffer" },
     { name = "path" },
   },
-  window = {},
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
 })
 cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),
@@ -372,6 +384,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
   border = border,
 })
 
+require("lspsaga").setup({})
+
 --- ####  others  ####
 
 require("aerial").setup({
@@ -379,6 +393,28 @@ require("aerial").setup({
     default_direction = "right",
   },
 })
+
+local dap = require("dap")
+dap.configurations = {
+  ruby = {
+    {
+      type = "ruby",
+      requrest = "attach",
+      name = "Attach to server",
+      runtimeExecutable = "rdbg",
+      runtimeArgs = { "--port", "12345" },
+    },
+    {
+      type = "ruby",
+      requrest = "launch",
+      name = "Debug rspec",
+      runtimeExecutable = "devcontainer exec --workspace-folder=. bundle exec rspec",
+      -- runtimeArgs  = {"-b", "bundle", "exec", "rspec"},
+    },
+  },
+}
+
+require("dap-ruby").setup({})
 
 require("fidget").setup({})
 
@@ -457,10 +493,25 @@ require("nvim-treesitter.configs").setup({
 local telescope = require("telescope")
 telescope.setup({
   defaults = {
+    file_ignore_patterns = { "node_modules", "vendor" },
+    layout_strategy = "horizontal",
     layout_config = {
+      mirror = true,
       prompt_position = "top",
     },
-    file_ignore_patterns = { "node_modules", "vendor" },
+    mappings = {
+      i = {
+        ["<esc>"] = require("telescope.actions").close,
+        ["<C-Down>"] = require("telescope.actions").cycle_history_next,
+        ["<C-Up>"] = require("telescope.actions").cycle_history_prev,
+        ["<C-q>"] = require("telescope.actions").send_to_qflist,
+      },
+    },
+    preview = {
+      treesitter = true,
+    },
+    sorting_strategy = "ascending",
+    winblend = 4,
   },
   extensions = {
     fzf = {
@@ -494,9 +545,31 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   end,
 })
 
+--  ####  user commands ####
+local telescopeBuiltin = require("telescope.builtin")
+
+vim.api.nvim_create_user_command("TBuiltin", function(opts)
+  telescopeBuiltin.builtin(opts)
+end, {})
+
+vim.api.nvim_create_user_command("TGitBranches", function(opts)
+  telescopeBuiltin.git_branches(opts)
+end, {})
+
+vim.api.nvim_create_user_command("TGitCommits", function(opts)
+  telescopeBuiltin.git_commits(opts)
+end, {})
+
+vim.api.nvim_create_user_command("TGitStatus", function(opts)
+  telescopeBuiltin.git_status(opts)
+end, {})
+
+vim.api.nvim_create_user_command("TGitStash", function(opts)
+  telescopeBuiltin.git_stash(opts)
+end, {})
+
 --  ####  key bindings  ####
 local aerialapi = require("aerial")
-local telescope = require("telescope.builtin")
 local treeapi = require("nvim-tree.api")
 
 -- diagnostics
@@ -508,13 +581,23 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 -- lsp
 --    look up LSP config
 
--- fzf
-vim.keymap.set("n", "<Leader>f", telescope.find_files, {})
-vim.keymap.set("n", "<Leader>b", telescope.buffers, {})
-vim.keymap.set("n", "<Leader>gr", telescope.live_grep, {})
-vim.keymap.set("n", "<Leader>gs", telescope.grep_string, {})
-vim.keymap.set("n", "<Leader>old", telescope.oldfiles, {})
-vim.keymap.set("n", "<Leader>ch", telescope.command_history, {})
+-- dap
+vim.keymap.set("n", "<leader>br", dap.toggle_breakpoint)
+vim.keymap.set("n", "<leader>dl", dap.continue)
+vim.keymap.set("n", "<leader>di", dap.step_into)
+vim.keymap.set("n", "<leader>do", dap.step_over)
+vim.keymap.set("n", "<leader>dr", dap.repl.open)
+
+-- telescope fzf
+vim.keymap.set("n", "<Leader>f", telescopeBuiltin.find_files, {})
+vim.keymap.set("n", "<Leader>b", telescopeBuiltin.buffers, {})
+vim.keymap.set("n", "<Leader>lg", telescopeBuiltin.live_grep, {})
+vim.keymap.set("n", "<Leader>gs", telescopeBuiltin.grep_string, {})
+vim.keymap.set("n", "<Leader>gs", telescopeBuiltin.grep_string, {})
+vim.keymap.set("n", "<Leader>ll", telescopeBuiltin.loclist, {})
+vim.keymap.set("n", "<Leader>qhis", telescopeBuiltin.quickfixhistory, {})
+vim.keymap.set("n", "<Leader>old", telescopeBuiltin.oldfiles, {})
+vim.keymap.set("n", "<Leader>ch", telescopeBuiltin.command_history, {})
 
 -- navigate window
 vim.keymap.set("n", "<space>e", treeapi.tree.toggle)
