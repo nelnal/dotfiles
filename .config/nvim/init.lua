@@ -65,7 +65,10 @@ require("packer").startup(function(use)
   use("brenoprata10/nvim-highlight-colors")
 
   -- nvim-treesitter
-  use("nvim-treesitter/nvim-treesitter")
+  use({
+    "nvim-treesitter/nvim-treesitter",
+    "RRethy/nvim-treesitter-endwise",
+  })
 
   -- telescope
   use({
@@ -88,6 +91,9 @@ require("packer").startup(function(use)
       require("trouble").setup({})
     end,
   })
+
+  -- winbar
+  use("fgheng/winbar.nvim")
 
   ----------------------------------------------
   use("mfussenegger/nvim-dap")
@@ -235,7 +241,7 @@ cmp.setup.cmdline("/", {
 cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
-    { name = "path" },
+    -- { name = "path" },
     { name = "cmdline" },
   },
 })
@@ -439,6 +445,9 @@ require("nvim-tree").setup({
 require("nvim-highlight-colors").setup({})
 
 require("nvim-treesitter.configs").setup({
+  endwise = {
+    enable = true,
+  },
   highlight = {
     enable = true,
     disable = {},
@@ -466,6 +475,10 @@ telescope.setup({
 telescope.load_extension("fzf")
 
 require("toggleterm").setup({})
+
+require("winbar").setup({
+  enabled = true,
+})
 
 --  ####  autocmd   ####
 
