@@ -45,6 +45,9 @@ require("packer").startup(function(use)
   -- filer
   use("nvim-tree/nvim-tree.lua")
 
+  -- gitlinker
+  use("ruifm/gitlinker.nvim")
+
   -- indent-blackline
   use("lukas-reineke/indent-blankline.nvim")
 
@@ -424,6 +427,8 @@ dap.configurations = {
 require("dap-ruby").setup({})
 
 require("fidget").setup({})
+
+require("gitlinker").setup({})
 
 require("indent_blankline").setup({
   char = " ",
