@@ -116,9 +116,7 @@ require("packer").startup(function(use)
   })
 
   ----------------------------------------------
-  use("mfussenegger/nvim-dap")
   -- for ruby
-  use("suketa/nvim-dap-ruby")
 
   --  for go
   use("leoluz/nvim-dap-go")
