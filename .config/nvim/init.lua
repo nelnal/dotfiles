@@ -270,7 +270,7 @@ cmp.setup.cmdline(":", {
 -- lsp
 require("mason").setup()
 require("mason-lspconfig").setup()
--- local lspconfig = require('mason-lspconfig')
+require("lspsaga").setup({})
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local on_attach = function(_, bufnr)
@@ -278,25 +278,26 @@ local on_attach = function(_, bufnr)
   -- vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   local opts = { noremap = true, silent = true }
   --[[
-  -- なんか動かない
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>dec", vim.lsp.buf.declaration, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>df", vim.lsp.buf.definition, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>K", vim.lsp.buf.hover, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>im", vim.lsp.buf.implementation, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>typ", vim.lsp.buf.type_definition, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", vim.lsp.buf.rename, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rf", vim.lsp.buf.references, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>fmt", function()
-    vim.lsp.buf.format({ async = true })
-  end, opts)
-  --]]
-  vim.keymap.set("n", "<leader>dec", vim.lsp.buf.declaration, opts)
-  vim.keymap.set("n", "<leader>df", vim.lsp.buf.definition, opts)
-  vim.keymap.set("n", "<leader>K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>dec", vim.lsp.buf.declaration, opts)
+    vim.keymap.set("n", "<leader>df", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "<leader>K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>im", vim.lsp.buf.implementation, opts)
+    vim.keymap.set("n", "<leader>typ", vim.lsp.buf.type_definition, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<leader>rf", vim.lsp.buf.references, opts)
+    ]]
+  --
+  vim.keymap.set("n", "<leader>lf", "<cmd>Lspsaga lsp_finder<cr>", opts)
+  vim.keymap.set("n", "<leader>ll", "<cmd>Lspsaga lsp_outline<cr>", opts)
+  vim.keymap.set("n", "<leader>lin", "<cmd>Lspsaga lsp_incoming_calls<cr>", opts)
+  vim.keymap.set("n", "<leader>lout", "<cmd>Lspsaga lsp_outgoing_calls<cr>", opts)
+  vim.keymap.set("n", "<leader>K", "<cmd>Lspsaga hover_doc<cr>", opts)
+  vim.keymap.set("n", "<leader>pdf", "<cmd>Lspsaga peek_definition<cr>", opts)
+  vim.keymap.set("n", "<leader>df", "<cmd>Lspsaga goto_definition<cr>", opts)
   vim.keymap.set("n", "<leader>im", vim.lsp.buf.implementation, opts)
-  vim.keymap.set("n", "<leader>typ", vim.lsp.buf.type_definition, opts)
-  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  vim.keymap.set("n", "<leader>rf", vim.lsp.buf.references, opts)
+  vim.keymap.set("n", "<leader>ptyp", "<cmd>Lspsaga peek_type_definition<cr>", opts)
+  vim.keymap.set("n", "<leader>typ", "<cmd>Lspsaga goto_type_definition<cr>", opts)
+  vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<cr>", opts)
   vim.keymap.set("n", "<leader>fmt", function()
     vim.lsp.buf.format({ async = true })
   end, opts)
@@ -392,8 +393,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
   },
   border = border,
 })
-
-require("lspsaga").setup({})
 
 --- ####  others  ####
 
