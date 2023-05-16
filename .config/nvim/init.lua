@@ -5,6 +5,7 @@ require("packer").startup(function(use)
 
   -- common
   use({
+    "SmiteshP/nvim-navic",
     "nvim-tree/nvim-web-devicons",
     "nvim-lua/plenary.nvim",
   })
@@ -21,6 +22,16 @@ require("packer").startup(function(use)
 
   -- aerial.nvim (for outline)
   use("stevearc/aerial.nvim")
+
+  -- barbecue
+  use({
+    "utilyre/barbecue.nvim",
+    tag = "*",
+    after = "nvim-web-devicons",
+    config = function()
+      require("barbecue").setup()
+    end,
+  })
 
   -- dap
   use({
@@ -101,12 +112,8 @@ require("packer").startup(function(use)
     end,
   })
 
-  -- winbar
-  use("fgheng/winbar.nvim")
-
   ----------------------------------------------
   use("mfussenegger/nvim-dap")
-
   -- for ruby
   use("suketa/nvim-dap-ruby")
 
@@ -526,10 +533,6 @@ telescope.setup({
 telescope.load_extension("fzf")
 
 require("toggleterm").setup({})
-
-require("winbar").setup({
-  enabled = true,
-})
 
 --  ####  autocmd   ####
 
