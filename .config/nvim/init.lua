@@ -117,6 +117,7 @@ require("packer").startup(function(use)
 
   ----------------------------------------------
   -- for ruby
+  use("tpope/vim-rails")
 
   --  for go
   use("leoluz/nvim-dap-go")
