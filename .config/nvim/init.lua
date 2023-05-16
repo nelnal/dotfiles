@@ -5,6 +5,7 @@ require("packer").startup(function(use)
 
   -- common
   use({
+    "SmiteshP/nvim-navic",
     "nvim-tree/nvim-web-devicons",
     "nvim-lua/plenary.nvim",
   })
@@ -22,6 +23,16 @@ require("packer").startup(function(use)
   -- aerial.nvim (for outline)
   use("stevearc/aerial.nvim")
 
+  -- barbecue
+  use({
+    "utilyre/barbecue.nvim",
+    tag = "*",
+    after = "nvim-web-devicons",
+    config = function()
+      require("barbecue").setup()
+    end,
+  })
+
   -- dap
   use({
     "mfussenegger/nvim-dap",
@@ -33,6 +44,9 @@ require("packer").startup(function(use)
 
   -- filer
   use("nvim-tree/nvim-tree.lua")
+
+  -- gitlinker
+  use("ruifm/gitlinker.nvim")
 
   -- indent-blackline
   use("lukas-reineke/indent-blankline.nvim")
@@ -101,14 +115,9 @@ require("packer").startup(function(use)
     end,
   })
 
-  -- winbar
-  use("fgheng/winbar.nvim")
-
   ----------------------------------------------
-  use("mfussenegger/nvim-dap")
-
   -- for ruby
-  use("suketa/nvim-dap-ruby")
+  use("tpope/vim-rails")
 
   --  for go
   use("leoluz/nvim-dap-go")
@@ -261,7 +270,7 @@ cmp.setup.cmdline(":", {
 -- lsp
 require("mason").setup()
 require("mason-lspconfig").setup()
--- local lspconfig = require('mason-lspconfig')
+require("lspsaga").setup({})
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local on_attach = function(_, bufnr)
@@ -269,25 +278,26 @@ local on_attach = function(_, bufnr)
   -- vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   local opts = { noremap = true, silent = true }
   --[[
-  -- なんか動かない
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>dec", vim.lsp.buf.declaration, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>df", vim.lsp.buf.definition, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>K", vim.lsp.buf.hover, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>im", vim.lsp.buf.implementation, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>typ", vim.lsp.buf.type_definition, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", vim.lsp.buf.rename, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rf", vim.lsp.buf.references, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>fmt", function()
-    vim.lsp.buf.format({ async = true })
-  end, opts)
-  --]]
-  vim.keymap.set("n", "<leader>dec", vim.lsp.buf.declaration, opts)
-  vim.keymap.set("n", "<leader>df", vim.lsp.buf.definition, opts)
-  vim.keymap.set("n", "<leader>K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>dec", vim.lsp.buf.declaration, opts)
+    vim.keymap.set("n", "<leader>df", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "<leader>K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>im", vim.lsp.buf.implementation, opts)
+    vim.keymap.set("n", "<leader>typ", vim.lsp.buf.type_definition, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<leader>rf", vim.lsp.buf.references, opts)
+    ]]
+  --
+  vim.keymap.set("n", "<leader>lf", "<cmd>Lspsaga lsp_finder<cr>", opts)
+  vim.keymap.set("n", "<leader>ll", "<cmd>Lspsaga lsp_outline<cr>", opts)
+  vim.keymap.set("n", "<leader>lin", "<cmd>Lspsaga lsp_incoming_calls<cr>", opts)
+  vim.keymap.set("n", "<leader>lout", "<cmd>Lspsaga lsp_outgoing_calls<cr>", opts)
+  vim.keymap.set("n", "<leader>K", "<cmd>Lspsaga hover_doc<cr>", opts)
+  vim.keymap.set("n", "<leader>pdf", "<cmd>Lspsaga peek_definition<cr>", opts)
+  vim.keymap.set("n", "<leader>df", "<cmd>Lspsaga goto_definition<cr>", opts)
   vim.keymap.set("n", "<leader>im", vim.lsp.buf.implementation, opts)
-  vim.keymap.set("n", "<leader>typ", vim.lsp.buf.type_definition, opts)
-  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  vim.keymap.set("n", "<leader>rf", vim.lsp.buf.references, opts)
+  vim.keymap.set("n", "<leader>ptyp", "<cmd>Lspsaga peek_type_definition<cr>", opts)
+  vim.keymap.set("n", "<leader>typ", "<cmd>Lspsaga goto_type_definition<cr>", opts)
+  vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<cr>", opts)
   vim.keymap.set("n", "<leader>fmt", function()
     vim.lsp.buf.format({ async = true })
   end, opts)
@@ -384,8 +394,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
   border = border,
 })
 
-require("lspsaga").setup({})
-
 --- ####  others  ####
 
 require("aerial").setup({
@@ -417,6 +425,8 @@ dap.configurations = {
 require("dap-ruby").setup({})
 
 require("fidget").setup({})
+
+require("gitlinker").setup({})
 
 require("indent_blankline").setup({
   char = " ",
@@ -450,6 +460,11 @@ require("lualine").setup({
 local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
+    null_ls.builtins.formatting.rubocop.with({
+      condition = function(utils)
+        return utils.root_has_file(".rubocop.yml")
+      end,
+    }),
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.completion.spell,
     null_ls.builtins.diagnostics.cspell.with({
@@ -460,6 +475,11 @@ null_ls.setup({
       diagnostics_postprocess = function(diagnostic)
         -- レベルをWARNに変更（デフォルトはERROR）
         diagnostic.severity = vim.diagnostic.severity["WARN"]
+      end,
+    }),
+    null_ls.builtins.diagnostics.rubocop.with({
+      condition = function(utils)
+        return utils.root_has_file(".rubocop.yml")
       end,
     }),
   },
@@ -526,10 +546,6 @@ telescope.setup({
 telescope.load_extension("fzf")
 
 require("toggleterm").setup({})
-
-require("winbar").setup({
-  enabled = true,
-})
 
 --  ####  autocmd   ####
 
