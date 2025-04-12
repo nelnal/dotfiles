@@ -15,6 +15,7 @@ if [ -d "${HOME}/.anyenv" ]; then
     $HOME/.rd/bin(N-/)
     $HOME/.yarn/bin(N-/)
     #$(npm prefix --location=global)/bin(N-/)
+    $HOME/.asdf/shims
     $path
   )
 

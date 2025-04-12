@@ -29,5 +29,8 @@ export GOPATH=$HOME/go
 
 export HISTORY_IGNORE="(awstoken)"
 
+# for asdf
+export ASDF_DATA_DIR="$HOME/.asdf"
+
 GPG_TTY=$(tty)
 export GPG_TTY
