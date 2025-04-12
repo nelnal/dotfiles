@@ -2,6 +2,8 @@
 
 export EDITOR="/usr/bin/vim"
 export PAGER="less"
+
+# for less
 export LESS='-i -M -R '
 export LESSOPEN="| src-hilite-lesspipe.sh %s"
 LESS_TERMCAP_mb=$(tput bold)								# begin bold
@@ -20,14 +22,24 @@ LESS_TERMCAP_ue=$(tput rmul; tput sgr0)			# end underline
 export LESS_TERMCAP_ue
 export GROFF_NO_SGR=1			# for konsole and gnome-terminal
 
-export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+##  for zsh history
+export HISTFILE="${HOME}/.zsh_history"
+# number of histories saved on memory
+export HISTSIZE=10000
+# number of histories saved in the history file
+export SAVEHIST=1000000
+# do not record duplicate
+setopt hist_ignore_dups
+export HISTORY_IGNORE="(awstoken)"
 
+# for golang
 export GO11MODULE=on
 export GOPRIVATE=
 export GOPATH=$HOME/go
 
-export HISTORY_IGNORE="(awstoken)"
+# for fzf
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # for asdf
 export ASDF_DATA_DIR="$HOME/.asdf"
