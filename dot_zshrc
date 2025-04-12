@@ -1,0 +1,36 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# vim: ft=zsh
+
+# for file in ~/.{zshpaths,exports,exports.priv,aliases,zplugrc,funcs}; do
+for file in ~/.{zshpaths,exports,exports.priv,aliases,funcs}; do
+  [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
+fpath=(
+  $HOME/.functions
+  $fpath
+)
+
+typeset -gU fpath FPATH
+
+bindkey -e
+bindkey "^[^Q" cd_ghq_list
+bindkey "^Y^Q" cd_ghq_list
+
+# load shell functions (contains completions)
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"

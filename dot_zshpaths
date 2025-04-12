@@ -1,0 +1,30 @@
+# vim: ft=zsh
+#export GOENV_ROOT=${HOME}/.goenv
+
+(nocorrect which direnv > /dev/null) && eval "$(direnv hook zsh)"
+
+if [ -d "${HOME}/.anyenv" ]; then
+
+  path=(
+    $HOME/go/bin(N-/)
+    $HOME/bin(N-/)
+    $HOME/.bin(N-/)
+    $HOME/.anyenv/bin(N-/)
+    $HOME/.config/yarn/global/node_modules/.bin(N-/)
+    # for rancher desktop
+    $HOME/.rd/bin(N-/)
+    $HOME/.yarn/bin(N-/)
+    #$(npm prefix --location=global)/bin(N-/)
+    $path
+  )
+
+  for dir in $(ls -d $HOME/.anyenv/envs/*); do
+    path=(
+      $dir/bin(N-/)
+      $path
+    )
+  done
+
+  typeset -gU path PATH
+fi
+

@@ -1,0 +1,20 @@
+# vim: ft=sh
+
+# Detect which
+if ls --color > /dev/null 2>&1; then
+  # GNU ls
+  colorflag="--color"
+else
+  # macOS ls
+  colorflag="-G"
+fi
+
+alias la="ls -a ${colorflag}"
+alias ll="ls -l ${colorflag}"
+alias lla="ls -al ${colorflag}"
+alias ls="command ls ${colorflag}"
+
+alias vi=/usr/bin/vim
+
+alias dot="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+
